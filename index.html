@@ -47,8 +47,12 @@
   <input type="radio" name="WT" value="LearningRead"> Learning (Reading Books)<br>
   <input type="radio" name="WT" value="LearningWorksets"> Learning (Worksets)<br>
   <input type="radio" name="WT" value="CodeReview"> Reviewing Code<br><br>
+  
+  <input type="text" id="comment" placeholder="comments"><br><br>
 
-  <button onclick="sendData()">stop timer </button>
+  <button onclick="sendData()">stop timer </button> <br><br>
+  
+  <div id=completed></div>
 
   <script>
     var startCounter, endCounter;
@@ -60,7 +64,8 @@
       c_endTime: 3,
       d_totalTime: 2,
       e_lang: 'c#',
-      f_work: 'coding'
+      f_work: 'coding',
+      g_comments: 'none
     }
 
     function startData() {
@@ -73,6 +78,7 @@
     function sendData() {
       var selectedToS = document.querySelector('input[name="ToS"]:checked').value;
       var selectedWT = document.querySelector('input[name="WT"]:checked').value;
+      var comment = document.getElementById("comment").value;
 
       endCounter = new Date();
       var timeDiff = endCounter - startCounter; //in ms
@@ -90,7 +96,10 @@
       data.d_totalTime = (mins + " minutes, " + secs + " seconds");
       data.e_lang = selectedToS;
       data.f_work = selectedWT;
+      data.g_comments = comment;
       workSession.push(data);
+      
+      document.getElementById("completed").innerHTML = "Total Time: " + mins + " minutes, " + secs + " seconds";
     }
   </script>
 </body>
