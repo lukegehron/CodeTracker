@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Code Tracker</title>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-database.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAO2O2T1N8FC5f2vJ55EVhPFkQL9HXRjSs",
+      authDomain: "codetracker-5db3d.firebaseapp.com",
+      databaseURL: "https://codetracker-5db3d.firebaseio.com",
+      projectId: "codetracker-5db3d",
+      storageBucket: "codetracker-5db3d.appspot.com",
+      messagingSenderId: "500210027842",
+      appId: "1:500210027842:web:ff21b1b596fd063c"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var database = firebase.database();
+    var workSession = database.ref('workSession');
+  </script>
+
+</head>
+
+<body>
+
+  <button onclick="startData()">start timer </button> <br>
+
+  <p>Type of Software:</p>
+  <input type="radio" name="ToS" value="CUnity"> C# Unity<br>
+  <input type="radio" name="ToS" value="CRhino"> C# Rhino<br>
+  <input type="radio" name="ToS" value="Python"> Python<br>
+  <input type="radio" name="ToS" value="Javascript" checked> Javascript<br>
+  <input type="radio" name="ToS" value="HTMLCSS"> HTML/CSS<br>
+
+  <p>Work Type:</p>
+  <input type="radio" name="WT" value="Coding" checked> Coding<br>
+  <input type="radio" name="WT" value="LearningWatch"> Learning (Watching Tutorials)<br>
+  <input type="radio" name="WT" value="LearningRead"> Learning (Reading Books)<br>
+  <input type="radio" name="WT" value="LearningWorksets"> Learning (Worksets)<br>
+  <input type="radio" name="WT" value="CodeReview"> Reviewing Code<br><br>
+
+  <button onclick="sendData()">stop timer </button>
+
+  <script>
+    var startCounter, endCounter;
+    var startTime = 1;
+    var endTime = 3;
+    var data = {
+      a_date: 'today',
+      b_startTime: 1,
+      c_endTime: 3,
+      d_totalTime: 2,
+      e_lang: 'c#',
+      f_work: 'coding'
+    }
+
+    function startData() {
+      startCounter = new Date();
+
+      data.a_date = (new Date().toDateString()),
+        data.b_startTime = (new Date().toLocaleTimeString());
+    }
+
+    function sendData() {
+      var selectedToS = document.querySelector('input[name="ToS"]:checked').value;
+      var selectedWT = document.querySelector('input[name="WT"]:checked').value;
+
+      endCounter = new Date();
+      var timeDiff = endCounter - startCounter; //in ms
+      // strip the ms
+      timeDiff /= 1000;
+      var secs = timeDiff % 60;
+      var mins = (timeDiff - secs) / 60;
+      // get seconds
+      var seconds = Math.round(timeDiff);
+      var secs = seconds % 60;
+      var mins = (seconds - secs) / 60;
+      //console.log(mins + " minutes, "+secs+" seconds");
+
+      data.c_endTime = (new Date().toLocaleTimeString());
+      data.d_totalTime = (mins + " minutes, " + secs + " seconds");
+      data.e_lang = selectedToS;
+      data.f_work = selectedWT;
+      workSession.push(data);
+    }
+  </script>
+</body>
+
+</html>
