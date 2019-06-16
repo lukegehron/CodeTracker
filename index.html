@@ -71,8 +71,9 @@
     function startData() {
       startCounter = new Date();
 
-      data.a_date = (new Date().toDateString()),
-        data.b_startTime = (new Date().toLocaleTimeString());
+      data.a_date = (new Date().toDateString());
+      data.b_startTime = (new Date().toLocaleTimeString());
+      document.getElementById("completed").innerHTML = "Timer Started";
     }
 
     function sendData() {
